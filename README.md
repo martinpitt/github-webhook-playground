@@ -10,3 +10,7 @@ Credentials
 -----------
 
  * For interacting with GitHub, create a [Personal Access Token](https://github.com/settings/tokens) with the appropriate permissions; for editing labels etc. you at least need `public_repo`.  Put that token into `~/.config/github-token`.
+
+ * For the webhook handler, create a random passphrase, store it in
+   `~/.config/github-webhook-token`, and set it as the secret when creating a
+   webhook on your project.

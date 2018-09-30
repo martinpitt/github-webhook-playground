@@ -1,0 +1,16 @@
+#!/usr/bin/python3
+
+import logging
+import http.server
+
+import github_handler
+
+class MyDemoHandler(github_handler.GithubHandler):
+   def handle_event(self, event, request):
+       print("handle_event: event", event)
+       print(request)
+
+logging.basicConfig(level=logging.DEBUG)  # INFO
+
+httpd = http.server.HTTPServer(('', 8080), MyDemoHandler)
+httpd.serve_forever()
