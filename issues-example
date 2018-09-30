@@ -1,0 +1,28 @@
+#!/usr/bin/python3
+
+import os
+import sys
+
+import task
+
+# connect to github project
+api = task.github.GitHub(repo='martinpitt/github-webhook-playground')
+
+print('all open issues that have a "question" label, with their tasks:')
+for issue in api.issues(state='open', labels=['question']):
+    print(f'#{issue["number"]}: {issue["title"]}')
+    for item, checked in task.github.Checklist(issue['body']).items.items():
+        print(f'  { checked and "☑" or "☐" } { item }')
+
+if len(sys.argv) == 3:
+    (issue, name) = sys.argv[1:]
+    # flip the question label on given issue
+    labels = api.get(f"issues/{issue}/labels")
+    for label in labels:
+        if label['name'] == name:
+            print(f'Removing label {name} from #{issue}')
+            api.delete(f"issues/{issue}/labels/{name}")
+            break
+    else:
+        print(f'Adding label {name} to #{issue}')
+        api.post(f"issues/{issue}/labels", [name])
