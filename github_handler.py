@@ -56,8 +56,9 @@ class GithubHandler(http.server.BaseHTTPRequestHandler):
 
         event = self.headers.get('X-GitHub-Event')
 
+        request = request.decode('UTF-8')
         logging.debug('event: %s, path: %s', event, self.path)
-        logging.debug(request.decode())
+        logging.debug(request)
 
         request = json.loads(request)
 
